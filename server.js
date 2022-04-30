@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const db = require('./config/connection');
 
-const { viewDepartments, viewRoles, } = require('./queries');
+const { viewDepartments, viewRoles, viewEmployees } = require('./queries');
 
 const promptUser = () => { 
   inquirer.prompt([
@@ -33,7 +33,11 @@ const promptUser = () => {
     }
     // view employee option
     else if (menuChoice === 'View employees') {
-      
+      viewEmployees().then(data => {
+        console.log(data);
+      })
+      let roles = await viewEmployees();
+      console.log(roles);
     }
     // Add department option
     else if (menuChoice === 'Add department') {

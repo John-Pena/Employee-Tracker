@@ -26,8 +26,21 @@ function viewRoles() {
   })
 }
 
+function viewEmployees() {
+  // open employee database
+  // promise wrapper
+  return new Promise(function (resolve, reject){
+    db.query(
+      'SELECT * FROM `employee`;',
+      (error, res) => {
+        resolve(res);
+      }
+    )
+  })
+}
+
 module.exports = {
   viewDepartments,
   viewRoles,
-  
+  viewEmployees,
 };
