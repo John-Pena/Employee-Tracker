@@ -58,4 +58,23 @@ const promptUser = () => {
   })
 }
 
+// Will export to answer to queries and use answer in queries
+// const promptDepartment = () => {
+//   inquirer.prompt([
+//     {
+//       type: 'input',
+//       name: 'department',
+//       message: 'What is the new department name?',
+//       validate: department => {
+//         if (department) {
+//           return true;
+//         } else {
+//           console.log('You need to enter a department name!');
+//           return false;
+//         }
+//       }
+//     }
+//   ])
+// };
+
 promptUser();
