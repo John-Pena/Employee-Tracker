@@ -1,6 +1,8 @@
 const inquirer = require('inquirer');
 const db = require('./config/connection');
 
+const { viewDepartment } = require('./queries');
+
 const promptUser = () => { 
   inquirer.prompt([
     {
@@ -14,7 +16,7 @@ const promptUser = () => {
     let menuChoice = promptChoice.menuChoice
     // Takes prompt choices and runs associated function
     if (menuChoice === 'View departments') {
-
+      viewDepartment();
     }
     else if (menuChoice === 'View roles') {
       
