@@ -12,7 +12,7 @@ const promptUser = () => {
       choices: ['View departments', 'View roles', 'View employees', 'Add department', 'Add a role', 'Add an employee', 'Update an employee']
     },
   ])
-  .then(async promptChoice => {
+  .then(promptChoice => {
     let menuChoice = promptChoice.menuChoice
     // Takes prompt choices and runs associated function
     // View department choice
@@ -20,28 +20,46 @@ const promptUser = () => {
       viewDepartments().then(data => {
         console.log(data);
       })
-      let departments = await viewDepartments();
-      console.log(departments);
     }
     // view role option
     else if (menuChoice === 'View roles') {
       viewRoles().then(data => {
         console.log(data);
       })
-      let roles = await viewRoles();
-      console.log(roles);
     }
     // view employee option
     else if (menuChoice === 'View employees') {
       viewEmployees().then(data => {
         console.log(data);
       })
-      let roles = await viewEmployees();
-      console.log(roles);
     }
     // Add department option
     else if (menuChoice === 'Add department') {
-      
+      inquirer.prompt([
+        {
+          type: 'input',
+          name: 'departmentName',
+          message: 'What is the name of the department you would like to add?',
+          validate: departmentName => {
+            if (departmentName) {
+              return true;
+            } else {
+              console.log('Please enter a department name!');
+              return false;
+            }
+          }
+        }
+      ])
+      .then(response => {
+        const sql = `INSERT INTO department (name) VALUES (?);`;
+    
+        db.query(sql, response.departmentName, (err, result) => {
+          if (err) throw err;
+          console.log('Added ' + response.departmentName + ' to departments!');
+    
+          return promptUser();
+        });
+      });
     }
     // Add role option
     else if (menuChoice === 'Add a role') {
@@ -57,24 +75,5 @@ const promptUser = () => {
     }
   })
 }
-
-// Will export to answer to queries and use answer in queries
-// const promptDepartment = () => {
-//   inquirer.prompt([
-//     {
-//       type: 'input',
-//       name: 'department',
-//       message: 'What is the new department name?',
-//       validate: department => {
-//         if (department) {
-//           return true;
-//         } else {
-//           console.log('You need to enter a department name!');
-//           return false;
-//         }
-//       }
-//     }
-//   ])
-// };
 
 promptUser();

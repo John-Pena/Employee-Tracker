@@ -24,7 +24,7 @@ function viewRoles() {
       }
     )
   })
-}
+};
 
 function viewEmployees() {
   // open employee database
@@ -37,15 +37,7 @@ function viewEmployees() {
       }
     )
   })
-}
-
-function addDepartment() {
-  return new Promise(function (resolve, reject) {
-    db.query(
-      'INSERT INTO `department` '
-    )
-  })
-}
+};
 
 module.exports = {
   viewDepartments,
