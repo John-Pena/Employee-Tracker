@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const db = require('./config/connection');
+const cTable = require('console.table');
 
 const { viewDepartments, viewRoles, viewEmployees } = require('./queries');
 
@@ -20,18 +21,21 @@ const promptUser = () => {
       viewDepartments().then(data => {
         console.log(data);
       })
+      return promptUser();
     }
     // view role option
     else if (menuChoice === 'View roles') {
       viewRoles().then(data => {
         console.log(data);
       })
+      return promptUser();
     }
     // view employee option
     else if (menuChoice === 'View employees') {
       viewEmployees().then(data => {
         console.log(data);
       })
+     return promptUser();
     }
     // Add department option
     else if (menuChoice === 'Add department') {
@@ -141,7 +145,15 @@ function addRole() {
 };
 
 function addEmployee() {
-  
+  db.query(`SELECT * FROM employee;`, (err, results) => {
+    // Creates array for employees
+    let employees = [];
+    if (err) {
+      console.log(err);
+    }
+    // Inserts new employee information from user input
+
+  })
 };
 
 promptUser();
