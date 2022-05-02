@@ -67,7 +67,7 @@ const promptUser = () => {
     }
     // Add employee option
     else if (menuChoice === 'Add an employee') {
-      
+      addEmployee();
     }
     // update employee option
     else if (menuChoice === 'Update an employee') {
@@ -138,6 +138,10 @@ function addRole() {
       );
     });
   });
+};
+
+function addEmployee() {
+  
 };
 
 promptUser();
