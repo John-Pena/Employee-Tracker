@@ -63,7 +63,7 @@ const promptUser = () => {
     }
     // Add role option
     else if (menuChoice === 'Add a role') {
-      
+      addRole();
     }
     // Add employee option
     else if (menuChoice === 'Add an employee') {
@@ -75,5 +75,69 @@ const promptUser = () => {
     }
   })
 }
+
+function addRole() {
+  db.query(`SELECT * FROM department;`, (err, results) => {
+    // creates an array for departments in table
+    let departments = [];
+    if (err) {
+      console.log(err);
+    }
+    // inserts user input for role name and unique id inside department table
+    for (let i = 0; i < results.length; i++) {
+      departments.push({ name: results[i].name, value: results[i].id });
+    }
+
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'roleName',
+        message: 'What is the name of this new role?',
+        validate: roleName => {
+          if (roleName) {
+            return true;
+          } else {
+            console.log('Please insert the name of the new role!');
+            return false;
+          }
+        }
+      },
+      {
+        type: 'input',
+        name: 'salary',
+        message: 'What is the salary of this new role (numbers only)?',
+        validate: salary => {
+          if (salary) {
+            return true;
+          } else {
+            console.log('Please insert the salary of the new role!');
+            return false;
+          }
+        }
+      },
+      {
+        type: 'list',
+        name: 'rolesDept',
+        message: 'What  department does this role belong to?',
+        choices: departments,
+      }
+    ])
+    .then((response) => {
+      db.query(
+        `INSERT INTO role (title, salary, department_id)
+        VALUES (?, ?, ?);`,
+        [response.roleName, response.salary, response.rolesDept],
+        (err, results) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          console.log('New role added!');
+          promptUser();
+        }
+      );
+    });
+  });
+};
 
 promptUser();
